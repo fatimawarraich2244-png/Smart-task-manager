@@ -12,8 +12,22 @@ connectDB();
 const app = express();
 
 // ─── Middleware ───────────────────────────────────────────
+const allowedOrigins = [
+  'https://smart-task-manager-one-brown.vercel.app',
+  'https://smart-task-manager-one-brown.vercel.app/',
+  process.env.CLIENT_URL,
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'https://smart-task-manager-one-brown.vercel.app',
+  origin: (origin, callback) => {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin) || allowedOrigins.includes(`${origin}/`)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 app.use(express.json());
