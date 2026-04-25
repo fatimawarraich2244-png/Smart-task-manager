@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/tasks';
+const API_URL = 'https://smart-task-manager34324.vercel.app/api/tasks';
 
 const getConfig = (token) => ({
   headers: { Authorization: `Bearer ${token}` },
